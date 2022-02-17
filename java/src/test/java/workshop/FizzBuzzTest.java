@@ -3,7 +3,6 @@ package workshop;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static workshop.FizzBuzz.say;
 
 public class FizzBuzzTest {
     @Test
@@ -11,6 +10,10 @@ public class FizzBuzzTest {
         assertEquals("1", say(1));
         assertEquals("4", say(4));
         assertEquals("7", say(7));
+    }
+
+    private Object say(int i) {
+        return null;
     }
 
     @Test

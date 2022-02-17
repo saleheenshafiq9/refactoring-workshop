@@ -2,8 +2,6 @@ package workshop;
 
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 
 public class HtmlPagesConverterTest {
@@ -38,12 +36,9 @@ public class HtmlPagesConverterTest {
 
     class PlaintextToHtmlConverterFake extends PlaintextToHtmlConverter {
         String text;
+
         protected void setRead(String text) {
             this.text = text;
-        }
-        @Override
-        protected String read() throws IOException {
-            return text;
         }
     }
 }
