@@ -5,11 +5,16 @@ import java.util.LinkedList;
 import java.util.*;
 
 public class TriviaGame {
+
+    private static final int NB_CELLS = 12;
+    private static final Category[] CATEGORIES = new Category[] { Category.POP, Category.SCIENCE, Category.SPORTS,
+            Category.ROCK };
     private List<String> players = new ArrayList<>();
     int[] places = new int[6];
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
-
+    private final Map<Integer, Category> categoriesByPosition = new HashMap<>(NB_CELLS);
+    private final Map<Category, Deque<String>> questionsByCategory = new HashMap<>();
     private List<String> popQuestions = new LinkedList<>();
     private List<String> scienceQuestions = new LinkedList<>();
     private List<String> sportsQuestions = new LinkedList<>();
@@ -19,12 +24,17 @@ public class TriviaGame {
     boolean isGettingOutOfPenaltyBox;
 
     public TriviaGame() {
-        workshop.Questions ques = new workshop.Questions();
+        for (Category category : CATEGORIES) {
+            questionsByCategory.put(category, new LinkedList<>());
+        }
         for (int i = 0; i < 50; i++) {
-            ((LinkedList<String>) getPopQuestions()).addLast(ques.createPopQuestion(i));
-            ((LinkedList<String>) getScienceQuestions()).addLast(ques.createScienceQuestion(i));
-            ((LinkedList<String>) getSportsQuestions()).addLast(ques.createSportQuestion(i));
-            ((LinkedList<String>) getRockQuestions()).addLast(ques.createRockQuestion(i));
+            for (Category category : CATEGORIES) {
+                questionsByCategory.get(category).addLast(category.toString() + " Question " + i);
+            }
+        }
+
+        for (int i = 0; i < NB_CELLS; i++) {
+            categoriesByPosition.put(i, CATEGORIES[i % CATEGORIES.length]);
         }
     }
 
@@ -95,38 +105,15 @@ public class TriviaGame {
     }
 
     private void askQuestion() {
-        workshop.Category cat = new workshop.Category();
-        if (currentCategory().equals(cat.categoryPop()))
-            announce(((LinkedList<String>) getPopQuestions()).removeFirst());
-        if (currentCategory().equals(cat.categoryScience()))
-            announce(((LinkedList<String>) getScienceQuestions()).removeFirst());
-        if (currentCategory().equals(cat.categorySports()))
-            announce(((LinkedList<String>) getSportsQuestions()).removeFirst());
-        if (currentCategory().equals(cat.categoryRock()))
-            announce(((LinkedList<String>) getRockQuestions()).removeFirst());
+        announce(questionsByCategory.get(currentCategory()).removeFirst());
     }
 
-    private String currentCategory() {
-        workshop.Category cat = new workshop.Category();
-        if (places[currentPlayer] == 0)
-            return cat.categoryPop();
-        if (places[currentPlayer] == 4)
-            return cat.categoryPop();
-        if (places[currentPlayer] == 8)
-            return cat.categoryPop();
-        if (places[currentPlayer] == 1)
-            return cat.categoryScience();
-        if (places[currentPlayer] == 5)
-            return cat.categoryScience();
-        if (places[currentPlayer] == 9)
-            return cat.categoryScience();
-        if (places[currentPlayer] == 2)
-            return cat.categorySports();
-        if (places[currentPlayer] == 6)
-            return cat.categorySports();
-        if (places[currentPlayer] == 10)
-            return cat.categorySports();
-        return cat.categoryRock();
+    private Category currentCategory() {
+        return categoriesByPosition.get(currentPosition());
+    }
+
+    private Object currentPosition() {
+        return null;
     }
 
     public boolean wasCorrectlyAnswered() {

@@ -1,24 +1,17 @@
 package workshop;
 
-public class Category {
+public enum Category {
 
-    public Category() {
+    POP("Pop"), SCIENCE("Science"), SPORTS("Sports"), ROCK("Rock");
 
+    private final String message;
+
+    Category(String message) {
+        this.message = message;
     }
 
-    public String categoryPop() {
-        return "Pop";
-    }
-
-    public String categoryScience() {
-        return "Science";
-    }
-
-    public String categorySports() {
-        return "Sports";
-    }
-
-    public String categoryRock() {
-        return "Rock";
+    @Override
+    public String toString() {
+        return message;
     }
 }
