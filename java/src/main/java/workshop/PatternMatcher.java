@@ -1,8 +1,6 @@
 package workshop;
 
-public interface PatternMatcher {
-	public boolean matches(int number);
-
-	public String generateRresponse(int number);
-
+public interface PatternMatcher extends ResponseGenerator {
+    boolean matches(int number);
 }
+
