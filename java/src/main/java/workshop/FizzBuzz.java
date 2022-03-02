@@ -19,6 +19,9 @@ public class FizzBuzz {
 		this.nullObjectPattern = nullObjectPattern;
 	}
 
+	public FizzBuzz() {
+	}
+
 	public String say(int number) {
 		String strReturn = nullObjectPattern.generateRresponse(number);
 
@@ -27,6 +30,9 @@ public class FizzBuzz {
 				strReturn = patternMatcher.generateRresponse(number);
 		}
 
-		return strReturn;
+		if (strReturn.equals(""))
+			return String.valueOf(number);
+		else
+			return strReturn;
 	}
 }
